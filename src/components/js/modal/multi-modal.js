@@ -2,17 +2,16 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { v4 as uuidv4 } from 'uuid';
 
 function AddSitesModal({ show, handleClose }) {
-  const [sites, setSites] = useState([{ id: uuidv4(), domain: '', ip: '', subdomains: '', server: '1' }]);
+  const [sites, setSites] = useState([{ id: 0, domain: '', ip: '', subdomains: '', server: '1' }]);
 
   const handleAddSite = () => {
-    setSites([...sites, { id: uuidv4(), domain: '', ip: '', subdomains: '', server: '1' }]);
+    setSites([...sites, { id: sites.length, domain: '', ip: '', subdomains: '', server: '1' }]);
   };
 
   const handleRemoveSite = (id) => {
-    setSites(sites.filter((site) => site.id !== id));
+    setSites(sites.filter((site) => site.id !== id).map((site, index) => ({ ...site, id: index })));
   };
 
   const handleInputChange = (id, field, value) => {
@@ -22,13 +21,18 @@ function AddSitesModal({ show, handleClose }) {
     setSites(updatedSites);
   };
 
-
   const handleSubmit = async (e) => {
-
     const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
 
     try {
-      for (const site of sites) {
+      const sitesToSubmit = sites.map((site) => {
+        const updatedSubdomains = site.subdomains
+          ? `${site.subdomains}.host.com`
+          : site.subdomains;
+        return { ...site, subdomains: updatedSubdomains };
+      });
+
+      for (const site of sitesToSubmit) {
         const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
           method: 'POST',
           headers: {
@@ -37,19 +41,19 @@ function AddSitesModal({ show, handleClose }) {
           },
           body: JSON.stringify(site),
         });
-  
+
         if (response.ok) {
           console.log('Сайт успешно сохранен');
         } else {
           console.error('Ошибка при сохранении сайта');
         }
-        console.log(site)
       }
+
+      console.log('Сайты для добавления:', sitesToSubmit);
     } catch (error) {
       console.error('Ошибка:', error);
     }
 
-    console.log('Сайты для добавления:', sites);
     handleClose();
   };
 
@@ -61,9 +65,9 @@ function AddSitesModal({ show, handleClose }) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {sites.map((site, index) => (
+            {sites.map((site) => (
               <div key={site.id} className="mb-4">
-                <h5>Сайт {index + 1}</h5>
+                <h5>Сайт {site.id + 1}</h5>
                 <Form.Group className="mb-3" controlId={`formDomain-${site.id}`}>
                   <Form.Label>Домен</Form.Label>
                   <Form.Control

@@ -10,7 +10,16 @@ function Example({ show, handleClose }) {
   const [server, setServer] = useState('');
 
   const handleSubmit = async () => {
-    const siteData = { domain, ip, subdomains, server: 1 };
+    // Проверяем наличие host.com в поддомене
+    const host = 'host.com';
+    let completeSubdomain = subdomains;
+
+    // Если поддомен не содержит host.com, добавляем его
+    if (!completeSubdomain.includes(host)) {
+      completeSubdomain = `${completeSubdomain}.${host}`;
+    }
+
+    const siteData = { domain, ip, subdomains: completeSubdomain, server: 1 };
 
     const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
 

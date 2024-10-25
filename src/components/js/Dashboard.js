@@ -54,14 +54,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchSitesData();
-    const interval = setInterval(() => {
-      fetchSitesData();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    fetchSitesData();
   }, []);
 
   const handleShowMonoModal = () => {
@@ -93,18 +85,20 @@ const Dashboard = () => {
 
   const handleDeleteSite = async (siteId) => {
     try { 
-      const response = await fetch(`http://46.8.64.99:8000/api/sites/${siteId}/`, {
+      const url = `http://46.8.64.99:8000/api/sites/${siteId}`;
+      const response = await fetch(url, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${token}`
         }
       });
+      
       if (response.ok) {
         const updatedSites = sitesData.filter((site) => site.id !== siteId);
         setSitesData(updatedSites);
         console.log(`Сайт с ID ${siteId} успешно удалён`);
       } else {
-        console.error('Ошибка при удалении сайта:', response.statusText);
+        console.error(`Ошибка при удалении сайта: ${response.status} ${response.statusText} для URL: ${url}`);
       }
     } catch (error) {
       console.error('Ошибка запроса:', error);
@@ -179,7 +173,9 @@ const Dashboard = () => {
                     <div className="tbody_th site-index">{sitesData.length - index - 1}</div>
                     <div className="tbody_th site-subdomains">
                       {site.subdomains.split(',').map((subdomain, subIndex) => (
-                        <div key={subIndex}>{subdomain.trim()}</div>
+                        <div key={subIndex}>
+                          {subdomain.trim().split('.')[0]}
+                        </div>
                       ))}
                     </div>
                     <div className="tbody_th site-domains">{site.domain}</div>
