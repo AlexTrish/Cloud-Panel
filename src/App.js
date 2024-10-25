@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Cookies from 'js-cookie'; // Для работы с cookies
+import Cookies from 'js-cookie';
 import Sidebar from './components/js/Sidebar';
 import Dashboard from './components/js/Dashboard';
 import './components/css/index.scss';
@@ -7,18 +7,58 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import passwordIco from './components/img/password.svg';
 import loginIco from './components/img/login.svg';
 
-// Основной компонент приложения
+
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); //для входа поставить 'true', для работы авторизации 'false'
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [ws, setWs] = useState(null);
+
+  
+  useEffect(() => {
+    const websocket = new WebSocket('ws://localhost:3000/ws');
+
+    websocket.onopen = () => {
+      console.log('WebSocket соединение установлено');
+    };
+
+    websocket.onmessage = (event) => {
+      const newMessage = event.data;
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    websocket.onclose = () => {
+      console.log('WebSocket соединение закрыто');
+    };
+
+    websocket.onerror = (error) => {
+      console.error('Ошибка WebSocket:', error);
+    };
+
+    setWs(websocket);
+
+    return () => {
+      websocket.close();
+    };
+  }, []);
+
+  // Функция для отправки сообщения через WebSocket
+  const sendMessage = (message) => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(message);
+    } else {
+      console.error('WebSocket не подключен');
+    }
+  };
+
 
   useEffect(() => {
     const token = Cookies.get('jwtToken');
     if (token) {
-      setIsAuthenticated(true); // Если токен есть, пользователь аутентифицирован
+      setIsAuthenticated(true);
     } else {
-      setIsRegistering(false); // Если токена нет, переключаем на окно авторизации
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -28,16 +68,16 @@ const App = () => {
     const formData = new FormData(e.target);
     const loginData = {
       username: formData.get('login'),
-      password: formData.get('password')
+      password: formData.get('password'),
     };
 
     try {
-      const response = await fetch('https://your-api-url.com/login', { // Укажите ваш API URL
+      const response = await fetch('http://46.8.64.99:8000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(loginData),
       });
 
       if (response.ok) {
@@ -53,28 +93,22 @@ const App = () => {
     }
   };
 
-  // Функция для выхода
-  const handleLogout = () => {
-    Cookies.remove('jwtToken');
-    setIsAuthenticated(false);
-  };
-
+  // Функция для регистрации
   const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const registrationData = {
       username: formData.get('username'),
-      email: formData.get('email'),
-      password: formData.get('password')
+      password: formData.get('password'),
     };
 
     try {
-      const response = await fetch('', { // Нужно указать API URL
+      const response = await fetch('http://46.8.64.99:8000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(registrationData)
+        body: JSON.stringify(registrationData),
       });
 
       if (response.ok) {
@@ -90,62 +124,10 @@ const App = () => {
     }
   };
 
-  const handlePasswordResetRequest = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const email = formData.get('email');
-
-    try {
-      const response = await fetch('', { // Нужно указать API URL
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email })
-      });
-
-      if (response.ok) {
-        alert('Запрос на восстановление пароля отправлен. Проверьте вашу почту.');
-        setIsResettingPassword(false);
-      } else {
-        alert('Ошибка при отправке запроса на восстановление пароля.');
-      }
-    } catch (error) {
-      console.error('Ошибка:', error);
-      alert('Ошибка соединения с сервером.');
-    }
-  };
-
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newPassword = formData.get('newPassword');
-    const confirmNewPassword = formData.get('confirmNewPassword');
-
-    if (newPassword !== confirmNewPassword) {
-      alert('Пароли не совпадают!');
-      return;
-    }
-
-    try {
-      const response = await fetch('', { // Нужно указать API URL
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newPassword })
-      });
-
-      if (response.ok) {
-        alert('Пароль успешно изменен!');
-        setIsResettingPassword(false);
-      } else {
-        alert('Ошибка при изменении пароля.');
-      }
-    } catch (error) {
-      console.error('Ошибка:', error);
-      alert('Ошибка соединения с сервером.');
-    }
+  // Функция для выхода
+  const handleLogout = () => {
+    Cookies.remove('jwtToken');
+    setIsAuthenticated(false);
   };
 
   const toggleRegistration = () => {
@@ -161,7 +143,7 @@ const App = () => {
       {isAuthenticated ? (
         <MainWindow onLogout={handleLogout} />
       ) : isResettingPassword ? (
-        <PasswordResetWindow onResetPassword={handlePasswordResetRequest} />
+        <PasswordResetWindow />
       ) : isRegistering ? (
         <RegistrationWindow onRegister={handleRegister} onToggle={toggleRegistration} />
       ) : (
@@ -237,9 +219,6 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
               <input type="text" className="form-control" id="username" name="username" placeholder="Username" required />
             </div>
             <div className="form-group">
-              <input type="email" className="form-control" id="email" name="email" placeholder="Email" required />
-            </div>
-            <div className="form-group">
               <input
                 type="password"
                 className="form-control"
@@ -263,7 +242,7 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
                 required
               />
             </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>} {}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <span className="sign-in-text">
               Уже есть аккаунт? <a className="sign-in-link" href="#" onClick={onToggle}>Войти</a>
             </span>
@@ -276,13 +255,13 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
 };
 
 // Компонент окна восстановления пароля
-const PasswordResetWindow = ({ onResetPassword }) => {
+const PasswordResetWindow = () => {
   return (
     <div className="body-container">
       <div className="container-wrapper">
         <div className="auth-container">
           <h1>Восстановление пароля</h1>
-          <form onSubmit={onResetPassword}>
+          <form>
             <span>Введите ваш email для восстановления пароля</span>
             <div className="form-group">
               <input type="email" className="form-control" id="email" name="email" placeholder="Email" required />
@@ -295,7 +274,7 @@ const PasswordResetWindow = ({ onResetPassword }) => {
   );
 };
 
-// Компонент главного окна
+// Компонент главного окна с Dashboard и Sidebar
 const MainWindow = ({ onLogout }) => {
   return (
     <div className="background-container">
