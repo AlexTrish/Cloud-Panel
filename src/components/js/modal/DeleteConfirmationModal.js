@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useLanguage } from '../../../LanguageContext';
 import '../../css/index.scss'
 
 function DeleteConfirmationModal({ show, handleClose, site, token }) {
+  const { language, toggleLanguage } = useLanguage();
+
     const handleDeleteSite = async (siteId) => {
         try {
             const response = await fetch(`http://46.8.64.99:8000/api/sites/${siteId}`, {

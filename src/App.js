@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import UserProfile from './components/js/UserProfile';
 import Sidebar from './components/js/Sidebar';
 import Dashboard from './components/js/Dashboard';
+import { useLanguage } from './LanguageContext';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import passwordIco from './components/img/password.svg';
@@ -17,6 +18,9 @@ const App = () => {
   const [ws, setWs] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { language, toggleLanguage } = useLanguage();
+
+  const Token_api = '548e1ce8bc45c4211903186c47bf34deb7e86643'
 
   
   useEffect(() => {
@@ -284,7 +288,7 @@ const PasswordResetWindow = ({ onBackToAuth }) => {
 };
 
 // Компонент главного окна с Dashboard и Sidebar
-const MainWindow = ({ onLogout }) => {
+const MainWindow = ({ onLogout, Token_api }) => {
   return (
     <div className="background-container">
       <div className="app-container">
@@ -293,7 +297,7 @@ const MainWindow = ({ onLogout }) => {
           <div className='logo-title'>&#x3C;Cloud Panel/&#x3E;</div>
         </div>
         <div className='profile-container'>
-         <UserProfile />
+         <UserProfile token={Token_api} />
         </div>
         <div className="sidebar-block">
           <Sidebar onLogout={onLogout} />

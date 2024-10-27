@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useLanguage } from '../../../LanguageContext';
 
 function Example({ show, handleClose, token, openServ }) {
   const [domain, setDomain] = useState('');
   const [ip, setip] = useState('');
   const [subdomains, setSubdomains] = useState('');
   const [server, setServer] = useState('');
+  const { language, toggleLanguage } = useLanguage();
 
   const handleSubmit = async () => {
     const host = 'host.com';

@@ -4,6 +4,7 @@ import '../css/index.scss';
 import Example from './modal/mono-modal';
 import AddSitesModal from './modal/multi-modal';
 import DeleteConfirmationModal from './modal/DeleteConfirmationModal';
+import { useLanguage } from '../../LanguageContext';
 
 let setCurrentMenu;
 
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const [selectedSite, setSelectedSite] = useState(null);
   const [updatedFields, setUpdatedFields] = useState({});
   const [subdomainInput, setSubdomainInput] = useState('');
+  const { language, toggleLanguage } = useLanguage();
   setCurrentMenu = _setCurrentMenu;
 
   const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
