@@ -21,7 +21,6 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   const Token_api = '548e1ce8bc45c4211903186c47bf34deb7e86643'
-  const { t } = useTranslation();
 
   
   useEffect(() => {
@@ -199,6 +198,7 @@ const LoginWindow = ({ onLogin, onToggle, onPasswordReset }) => {
 
 // Компонент окна регистрации
 const RegistrationWindow = ({ onRegister, onToggle }) => {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -222,14 +222,21 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
   };
 
   return (
-    <div className="body-container">
+<div className="body-container">
       <div className="container-wrapper reg">
         <div className="auth-container">
-          <h1>Регистрация</h1>
+          <h1>{t("registerTitle")}</h1>
           <form onSubmit={handleSubmit}>
-            <span>Создайте новый аккаунт</span>
+            <span>{t("createAccount")}</span>
             <div className="form-group">
-              <input type="text" className="form-control" id="username" name="username" placeholder="Username" required />
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                name="username"
+                placeholder={t("usernamePlaceholder")}
+                required
+              />
             </div>
             <div className="form-group">
               <input
@@ -237,7 +244,7 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
                 className="form-control"
                 id="password"
                 name="password"
-                placeholder="Password"
+                placeholder={t("passwordPlaceholder")}
                 value={password}
                 onChange={handlePasswordChange}
                 required
@@ -249,7 +256,7 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
                 className="form-control"
                 id="confirmPassword"
                 name="confirmPassword"
-                placeholder="Confirm Password"
+                placeholder={t("confirmPassword")}
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
                 required
@@ -257,9 +264,9 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <span className="sign-in-text">
-              Уже есть аккаунт? <a className="sign-in-link" href="#" onClick={onToggle}>Войти</a>
+              {t("alreadyHaveAccount")} <a className="sign-in-link" href="#" onClick={onToggle}>{t("loginBtn")}</a>
             </span>
-            <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
+            <button type="submit" className="btn btn-primary">{t("registerBtn")}</button>
           </form>
         </div>
       </div>
@@ -269,19 +276,24 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
 
 // Компонент окна восстановления пароля
 const PasswordResetWindow = ({ onBackToAuth }) => {
+  const { t } = useTranslation();
   return (
     <div className="body-container">
       <div className="container-wrapper">
         <div className="auth-container">
-          <h1>Восстановление пароля</h1>
+          <h1>{t('passwordRecoveryTitle')}</h1>
           <form>
-            <span>Введите ваш email для восстановления пароля</span>
+            <span>{t('enterEmailForRecovery')}</span>
             <div className="form-group">
-              <input type="email" className="form-control" id="email" name="email" placeholder="Email" required />
+              <input type="email" className="form-control" id="email" name="email" placeholder="Email" required/>
             </div>
-            <button type="submit" className="btn btn-primary">Отправить запрос</button>
+            <button type="submit" className="btn btn-primary">{t('sendRequest')}</button>
           </form>
-          <button id='go-auth-btn' className="btn btn-secondary" onClick={onBackToAuth}><svg width="15" height="15" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M3.05724 17.8189C-1.01908 13.7426 -1.01908 7.13357 3.05724 3.05725C7.13355 -1.01906 13.7426 -1.01906 17.8189 3.05725L96.3076 81.5459C100.384 85.6222 100.384 92.2313 96.3076 96.3076C92.2312 100.384 85.6222 100.384 81.5459 96.3076L3.05724 17.8189Z"/><path d="M17.8189 96.3076C13.7426 100.384 7.13357 100.384 3.05725 96.3076C-1.01906 92.2312 -1.01906 85.6222 3.05725 81.5459L81.5459 3.05724C85.6222 -1.01908 92.2313 -1.01908 96.3076 3.05724C100.384 7.13355 100.384 13.7426 96.3076 17.8189L17.8189 96.3076Z"/></svg>
+          <button id='go-auth-btn' className="btn btn-secondary" onClick={onBackToAuth}>
+            <svg width="15" height="15" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <path d="M3.05724 17.8189C-1.01908 13.7426 -1.01908 7.13357 3.05724 3.05725C7.13355 -1.01906 13.7426 -1.01906 17.8189 3.05725L96.3076 81.5459C100.384 85.6222 100.384 92.2313 96.3076 96.3076C92.2312 100.384 85.6222 100.384 81.5459 96.3076L3.05724 17.8189Z"/>
+              <path d="M17.8189 96.3076C13.7426 100.384 7.13357 100.384 3.05725 96.3076C-1.01906 92.2312 -1.01906 85.6222 3.05725 81.5459L81.5459 3.05724C85.6222 -1.01908 92.2313 -1.01908 96.3076 3.05724C100.384 7.13355 100.384 13.7426 96.3076 17.8189L17.8189 96.3076Z"/>
+            </svg>
           </button>
         </div>
       </div>

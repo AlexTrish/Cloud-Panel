@@ -179,21 +179,21 @@ const Dashboard = () => {
   }, [currentMenu]);
 
   return (
-    <div className="dashboard">
+<div className="dashboard">
       <div className="multi-menu"></div>
       {currentMenu === 'serv' ? (
         <div className="servers-menu">
           <div className="header-menu">
-            <h6 className="title-menu">Список сайтов</h6>
+            <h6 className="title-menu">{t('siteList')}</h6>
           </div>
           <div className="container-address">
             <div className="address-block-wrapper">
               <div className="thead">
                 <div>ID</div>
-                <div>Субдомен</div>
-                <div>Домен</div>
-                <div>Адрес сайта</div>
-                <div>Действия</div>
+                <div>{t('subDomain')}</div>
+                <div>{t('domain')}</div>
+                <div>{t('ip')}</div>
+                <div>{t('actions')}</div>
               </div>
               <div className="tbody">
                 {sitesData.slice().reverse().map((site, index) => (
@@ -203,7 +203,6 @@ const Dashboard = () => {
                     {site.subdomains.split(',').map((subdomain, subIndex) => {
                       const trimmedSubdomain = subdomain.trim().split('.')[0];
                       
-                      // Проверяем количество сабдоменов
                       if (site.subdomains.split(',').length > 3 && subIndex === 2) {
                         return (
                           <div key={subIndex}>
@@ -212,13 +211,12 @@ const Dashboard = () => {
                         );
                       }
                       
-                      // Для остальных сабдоменов, если их меньше или равно 3, просто отображаем
                       return (
                         <div key={subIndex}>
                           {trimmedSubdomain}
                         </div>
                       );
-                    }).slice(0, 3)} {/* Отображаем только первые 3 сабдомена */}
+                    }).slice(0, 3)}
                     </div>
                     <div className="tbody_th site-domains">{site.domain}</div>
                     <div className="tbody_th site-ip">{site.ip}</div>
@@ -235,12 +233,12 @@ const Dashboard = () => {
       ) : currentMenu === 'site-settings' && selectedSite ? (
         <div className="servers-settings">
           <div className="header-menu-settings">
-            <h6>Настройки сайта</h6>
+            <h6>{t('profileSettings')}</h6>
           </div>
           <div className="container-address-settings">
-          <form className='form-edit'>
+            <form className='form-edit'>
               <div className="form-group domen">
-                <label>Домен</label>
+                <label>{t('domain')}</label>
                 <input
                   type="text"
                   value={selectedSite.domain}
@@ -248,7 +246,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="form-group subdomen">
-                <label>Субдомен</label>
+                <label>{t('subDomain')}</label>
                 <input
                   type="text"
                   id="subdomains"
@@ -257,7 +255,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="form-group address">
-                <label>Адрес сервера</label>
+                <label>{t('ip')}</label>
                 <input
                   type="text"
                   value={selectedSite.ip}
@@ -265,7 +263,7 @@ const Dashboard = () => {
                 />
               </div>
               <button className='btn-save-edit' type="button" onClick={handleSaveChanges}>
-                Сохранить изменения
+                {t('saveChanges')}
               </button>
             </form>
           </div>
@@ -275,14 +273,14 @@ const Dashboard = () => {
           <div className="card-section">
             <div className="available-card">
               <button className="one" onClick={handleShowMonoModal}>
-                <Card title="Одиночное добавление сайта" content="" />
+                <Card title={t('MonoAddSite')} content="" />
               </button>
               <button className="two" onClick={handleShowMultiModal}>
-                <Card title="Массовое добавление сайтов" content="" />
+                <Card title={t('MultiAddSite')} content="" />
               </button>
             </div>
             <button className="unavailable-card">
-              <Card title="Временно недоступно" content="" />
+              <Card title={t('unavailable')} content="" />
             </button>
           </div>
         </div>

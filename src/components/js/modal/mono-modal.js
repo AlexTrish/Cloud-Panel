@@ -51,12 +51,12 @@ function Example({ show, handleClose, token, openServ }) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Добавить сайт</Modal.Title>
+          <Modal.Title>{t('addSiteTitle')}</Modal.Title> {/* Заголовок модального окна */}
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formDomain">
-              <Form.Label>Домен</Form.Label>
+              <Form.Label>{t('domain')}</Form.Label> {/* Перевод для метки "Домен" */}
               <Form.Control
                 type="text"
                 placeholder="example.com"
@@ -65,8 +65,8 @@ function Example({ show, handleClose, token, openServ }) {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formip">
-              <Form.Label>Адрес сервера</Form.Label>
+            <Form.Group className="mb-3" controlId="formIp">
+              <Form.Label>{t('ip')}</Form.Label> {/* Перевод для метки "Адрес сервера" */}
               <Form.Control
                 type="text"
                 placeholder="0.0.0.0"
@@ -75,7 +75,7 @@ function Example({ show, handleClose, token, openServ }) {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formSubdomains">
-              <Form.Label>Поддомен</Form.Label>
+              <Form.Label>{t('subDomain')}</Form.Label> {/* Перевод для метки "Поддомен" */}
               <Form.Control
                 type="text"
                 placeholder="www, online..."
@@ -87,10 +87,10 @@ function Example({ show, handleClose, token, openServ }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Закрыть
+            {t('close')} {/* Перевод для кнопки "Закрыть" */}
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Сохранить
+            {t('save')} {/* Перевод для кнопки "Сохранить" */}
           </Button>
         </Modal.Footer>
       </Modal>

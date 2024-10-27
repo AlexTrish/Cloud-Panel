@@ -25,28 +25,26 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Предотвращаем стандартное поведение формы
+    e.preventDefault();
 
     try {
       const sitesToSubmit = sites.map((site) => {
-        // Проверка и обработка поддоменов
         const updatedSubdomains = site.subdomains
           ? site.subdomains
               .split(',')
-              .map(sub => sub.trim()) // Убираем лишние пробелы
-              .filter(Boolean) // Убираем пустые значения
-              .map(sub => `${sub}.host.com`) // Форматируем поддомены
-              .join(',') // Объединяем обратно в строку
+              .map(sub => sub.trim())
+              .filter(Boolean)
+              .map(sub => `${sub}.host.com`)
+              .join(',')
           : site.subdomains;
 
         return { ...site, subdomains: updatedSubdomains };
       });
 
       for (const site of sitesToSubmit) {
-        // Проверка наличия обязательных полей
         if (!site.domain || !site.ip || !site.subdomains) {
           console.error('Ошибка: все поля должны быть заполнены для сайта:', site);
-          continue; // Пропускаем сайт, если есть незаполненные поля
+          continue;
         }
 
         const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
@@ -78,15 +76,15 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
     <>
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Массовое добавление сайтов</Modal.Title>
+          <Modal.Title>{t('MultiAddSite')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             {sites.map((site) => (
               <div key={site.id} className="mb-4">
-                <h5>Сайт {site.id + 1}</h5>
+                <h5>{t('site')} {site.id + 1}</h5>
                 <Form.Group className="mb-3" controlId={`formDomain-${site.id}`}>
-                  <Form.Label>Домен</Form.Label>
+                  <Form.Label>{t('domain')}</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="example.com"
@@ -95,7 +93,7 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId={`formip-${site.id}`}>
-                  <Form.Label>Адрес сервера</Form.Label>
+                  <Form.Label>{t('ip')}</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="0.0.0.0"
@@ -104,7 +102,7 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId={`formSubdomains-${site.id}`}>
-                  <Form.Label>Поддомен</Form.Label>
+                  <Form.Label>{t('subDomain')}</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="www, online..."
@@ -113,22 +111,22 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
                   />
                 </Form.Group>
                 <Button variant="danger" onClick={() => handleRemoveSite(site.id)} disabled={sites.length === 1}>
-                  Удалить сайт
+                  {t('removeSite')}
                 </Button>
                 <hr />
               </div>
             ))}
             <Button variant="secondary" onClick={handleAddSite}>
-              Добавить еще один сайт
+              {t('addAnotherSite')}
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Закрыть
+            {t('close')}
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Сохранить
+            {t('save')}
           </Button>
         </Modal.Footer>
       </Modal>
