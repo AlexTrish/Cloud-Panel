@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from './i18n';
 import Cookies from 'js-cookie';
 import UserProfile from './components/js/UserProfile';
 import Sidebar from './components/js/Sidebar';
 import Dashboard from './components/js/Dashboard';
-import { useLanguage } from './LanguageContext';
-import './components/css/index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import passwordIco from './components/img/password.svg';
 import loginIco from './components/img/login.svg';
+import './components/css/index.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
@@ -18,9 +19,9 @@ const App = () => {
   const [ws, setWs] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { language, toggleLanguage } = useLanguage();
 
   const Token_api = '548e1ce8bc45c4211903186c47bf34deb7e86643'
+  const { t } = useTranslation();
 
   
   useEffect(() => {
@@ -166,28 +167,29 @@ const App = () => {
 
 // Компонент окна авторизации
 const LoginWindow = ({ onLogin, onToggle, onPasswordReset }) => {
+  const { t } = useTranslation();
   return (
     <div className="body-container">
       <div className="container-wrapper">
         <div className="auth-container">
-          <h1>Авторизация</h1>
+          <h1>{t('authTitle')}</h1>
           <form onSubmit={onLogin}>
-            <span>Пожалуйста, авторизуйтесь!</span>
+            <span>{t('pleaseLogin')}</span>
             <div className="form-group">
               <img src={loginIco} alt="" />
-              <input type="text" className="form-control" id="login" name="login" placeholder="LOGIN" required />
+              <input type="text" className="form-control" id="login" name="login" placeholder={t('loginPlaceholder')} required />
             </div>
             <div className="form-group">
               <img src={passwordIco} alt="" />
-              <input type="password" className="form-control" id="password" name="password" placeholder="PASSWORD" required />
+              <input type="password" className="form-control" id="password" name="password" placeholder={t('passwordPlaceholder')} required />
             </div>
             <span className="sign-in-text">
-              Если у вас нет аккаунта. <a className="sign-in-link" href="#" onClick={onToggle}>Зарегистрироваться?</a>
+              {t('noAccount')} <a className="sign-in-link" href="#" onClick={onToggle}>{t('registerBtn')}</a>
             </span>
             <span className="password-reset-text">
-              Забыли пароль? <a className="password-reset-link" href="#" onClick={onPasswordReset}>Восстановить пароль</a>
+              {t('forgotPassword')} <a className="password-reset-link" href="#" onClick={onPasswordReset}>{t('passwordResetTitle')}</a>
             </span>
-            <button type="submit" className="btn btn-primary">Войти</button>
+            <button type="submit" className="btn btn-primary">{t('loginBtn')}</button>
           </form>
         </div>
       </div>
@@ -288,7 +290,7 @@ const PasswordResetWindow = ({ onBackToAuth }) => {
 };
 
 // Компонент главного окна с Dashboard и Sidebar
-const MainWindow = ({ onLogout, Token_api }) => {
+const MainWindow = ({ onLogout }) => {
   return (
     <div className="background-container">
       <div className="app-container">
@@ -297,7 +299,7 @@ const MainWindow = ({ onLogout, Token_api }) => {
           <div className='logo-title'>&#x3C;Cloud Panel/&#x3E;</div>
         </div>
         <div className='profile-container'>
-         <UserProfile token={Token_api} />
+         <UserProfile />
         </div>
         <div className="sidebar-block">
           <Sidebar onLogout={onLogout} />

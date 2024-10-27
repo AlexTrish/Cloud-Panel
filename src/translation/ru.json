@@ -1,0 +1,20 @@
+{
+    "login": "Авторизация",
+    "pleaseLogin": "Пожалуйста, авторизуйтесь!",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "register": "Зарегистрироваться",
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "forgotPassword": "Забыли пароль?",
+    "recoverPassword": "Восстановить пароль",
+    "email": "Email",
+    "sendRequest": "Отправить запрос",
+    "changeLanguage": "Сменить язык",
+    "settings": "Настройки",
+    "changeEmail": "Смените электронную почту",
+    "changePassword": "Смените пароль",
+    "unavailable": "Недоступно",
+    "confirmDelete": "Подтвердите действие"
+  }
+  
