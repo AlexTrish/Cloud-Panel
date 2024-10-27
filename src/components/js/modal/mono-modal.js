@@ -3,25 +3,23 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function Example({ show, handleClose }) {
+function Example({ show, handleClose, token, openServ }) {
   const [domain, setDomain] = useState('');
   const [ip, setip] = useState('');
   const [subdomains, setSubdomains] = useState('');
   const [server, setServer] = useState('');
 
   const handleSubmit = async () => {
-    // Проверяем наличие host.com в поддомене
     const host = 'host.com';
-    let completeSubdomain = subdomains;
+    let completeSubdomains = subdomains
+      .split(',')
+      .map(sub => sub.trim())
+      .filter(Boolean)
+      .map(sub => {
+        return sub.endsWith(`.${host}`) ? sub : `${sub}.${host}`;
+      });
 
-    // Если поддомен не содержит host.com, добавляем его
-    if (!completeSubdomain.includes(host)) {
-      completeSubdomain = `${completeSubdomain}.${host}`;
-    }
-
-    const siteData = { domain, ip, subdomains: completeSubdomain, server: 1 };
-
-    const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
+    const siteData = { domain, ip, subdomains: completeSubdomains.join(','), server: 1 };
 
     try {
       const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
@@ -43,6 +41,7 @@ function Example({ show, handleClose }) {
     }
 
     handleClose();
+    openServ();
   };
 
   return (
@@ -57,7 +56,7 @@ function Example({ show, handleClose }) {
               <Form.Label>Домен</Form.Label>
               <Form.Control
                 type="text"
-                placeholder=""
+                placeholder="example.com"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 autoFocus
@@ -67,7 +66,7 @@ function Example({ show, handleClose }) {
               <Form.Label>Адрес сервера</Form.Label>
               <Form.Control
                 type="text"
-                placeholder=""
+                placeholder="0.0.0.0"
                 value={ip}
                 onChange={(e) => setip(e.target.value)}
               />
@@ -76,7 +75,7 @@ function Example({ show, handleClose }) {
               <Form.Label>Поддомен</Form.Label>
               <Form.Control
                 type="text"
-                placeholder=""
+                placeholder="www, online..."
                 value={subdomains}
                 onChange={(e) => setSubdomains(e.target.value)}
               />

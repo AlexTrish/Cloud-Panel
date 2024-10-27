@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function AddSitesModal({ show, handleClose }) {
+function AddSitesModal({ show, handleClose, openServ, token }) {
   const [sites, setSites] = useState([{ id: 0, domain: '', ip: '', subdomains: '', server: '1' }]);
 
   const handleAddSite = () => {
@@ -22,17 +22,30 @@ function AddSitesModal({ show, handleClose }) {
   };
 
   const handleSubmit = async (e) => {
-    const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
+    e.preventDefault(); // Предотвращаем стандартное поведение формы
 
     try {
       const sitesToSubmit = sites.map((site) => {
+        // Проверка и обработка поддоменов
         const updatedSubdomains = site.subdomains
-          ? `${site.subdomains}.host.com`
+          ? site.subdomains
+              .split(',')
+              .map(sub => sub.trim()) // Убираем лишние пробелы
+              .filter(Boolean) // Убираем пустые значения
+              .map(sub => `${sub}.host.com`) // Форматируем поддомены
+              .join(',') // Объединяем обратно в строку
           : site.subdomains;
+
         return { ...site, subdomains: updatedSubdomains };
       });
 
       for (const site of sitesToSubmit) {
+        // Проверка наличия обязательных полей
+        if (!site.domain || !site.ip || !site.subdomains) {
+          console.error('Ошибка: все поля должны быть заполнены для сайта:', site);
+          continue; // Пропускаем сайт, если есть незаполненные поля
+        }
+
         const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
           method: 'POST',
           headers: {
@@ -45,7 +58,7 @@ function AddSitesModal({ show, handleClose }) {
         if (response.ok) {
           console.log('Сайт успешно сохранен');
         } else {
-          console.error('Ошибка при сохранении сайта');
+          console.error('Ошибка при сохранении сайта', site);
         }
       }
 
@@ -55,6 +68,7 @@ function AddSitesModal({ show, handleClose }) {
     }
 
     handleClose();
+    openServ();
   };
 
   return (
@@ -72,7 +86,7 @@ function AddSitesModal({ show, handleClose }) {
                   <Form.Label>Домен</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder=""
+                    placeholder="example.com"
                     value={site.domain}
                     onChange={(e) => handleInputChange(site.id, 'domain', e.target.value)}
                   />
@@ -81,7 +95,7 @@ function AddSitesModal({ show, handleClose }) {
                   <Form.Label>Адрес сервера</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder=""
+                    placeholder="0.0.0.0"
                     value={site.ip}
                     onChange={(e) => handleInputChange(site.id, 'ip', e.target.value)}
                   />
@@ -90,7 +104,7 @@ function AddSitesModal({ show, handleClose }) {
                   <Form.Label>Поддомен</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder=""
+                    placeholder="www, online..."
                     value={site.subdomains}
                     onChange={(e) => handleInputChange(site.id, 'subdomains', e.target.value)}
                   />

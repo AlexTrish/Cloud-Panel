@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import UserProfile from './components/js/UserProfile';
 import Sidebar from './components/js/Sidebar';
 import Dashboard from './components/js/Dashboard';
 import './components/css/index.scss';
@@ -14,6 +15,8 @@ const App = () => {
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   
   useEffect(() => {
@@ -138,12 +141,16 @@ const App = () => {
     setIsResettingPassword(!isResettingPassword);
   };
 
+  const handleBackToAuth = () => {
+    setIsResettingPassword(false);
+  };
+
   return (
     <div>
       {isAuthenticated ? (
         <MainWindow onLogout={handleLogout} />
       ) : isResettingPassword ? (
-        <PasswordResetWindow />
+        <PasswordResetWindow onBackToAuth={handleBackToAuth} />
       ) : isRegistering ? (
         <RegistrationWindow onRegister={handleRegister} onToggle={toggleRegistration} />
       ) : (
@@ -255,7 +262,7 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
 };
 
 // Компонент окна восстановления пароля
-const PasswordResetWindow = () => {
+const PasswordResetWindow = ({ onBackToAuth }) => {
   return (
     <div className="body-container">
       <div className="container-wrapper">
@@ -268,6 +275,8 @@ const PasswordResetWindow = () => {
             </div>
             <button type="submit" className="btn btn-primary">Отправить запрос</button>
           </form>
+          <button id='go-auth-btn' className="btn btn-secondary" onClick={onBackToAuth}><svg width="15" height="15" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M3.05724 17.8189C-1.01908 13.7426 -1.01908 7.13357 3.05724 3.05725C7.13355 -1.01906 13.7426 -1.01906 17.8189 3.05725L96.3076 81.5459C100.384 85.6222 100.384 92.2313 96.3076 96.3076C92.2312 100.384 85.6222 100.384 81.5459 96.3076L3.05724 17.8189Z"/><path d="M17.8189 96.3076C13.7426 100.384 7.13357 100.384 3.05725 96.3076C-1.01906 92.2312 -1.01906 85.6222 3.05725 81.5459L81.5459 3.05724C85.6222 -1.01908 92.2313 -1.01908 96.3076 3.05724C100.384 7.13355 100.384 13.7426 96.3076 17.8189L17.8189 96.3076Z"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -282,6 +291,9 @@ const MainWindow = ({ onLogout }) => {
         <div className="header">
           <div className='logo'></div>
           <div className='logo-title'>&#x3C;Cloud Panel/&#x3E;</div>
+        </div>
+        <div className='profile-container'>
+         <UserProfile />
         </div>
         <div className="sidebar-block">
           <Sidebar onLogout={onLogout} />

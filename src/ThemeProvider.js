@@ -6,9 +6,7 @@ const getTheme = () => {
   if (Object.values(themes).includes(theme)) return theme
 
   const userMedia = window.matchMedia('(prefers-color-scheme: light)')
-  if (userMedia.matches) return themes.light
-
-  return themes.dark
+  return userMedia.matches ? themes.light : themes.dark
 }
 
 const ThemeProvider = ({ children }) => {

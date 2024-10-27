@@ -22,6 +22,7 @@
 
   --text-color: #4A4A4A;
   --text-color-na: #B4B4B4;
+  --text-color-for-placeholder: #7a7a7a;
   --line-color: #CACACA;
 
   --color-green-card-one: #B9DCBA;
@@ -69,6 +70,7 @@
 
   --text-color: #E8E8F0;
   --text-color-na: #818181;
+  --text-color-for-placeholder: #949494;
   --line-color: #818181;
 
   --color-green-card-one: #0B827E;
@@ -108,7 +110,9 @@
   border-radius: 20px;
 }
 
-
+input::placeholder { 
+  color: var(--text-color-for-placeholder)!important; 
+}
 
 // auth
 .body-container {
@@ -231,9 +235,11 @@
   filter: brightness(50%);
 }
 
-.form-group {
-  display: flex !important;
+.auth-container .form-group {
+  display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-group img {
@@ -242,6 +248,27 @@
 }
 
 
+#go-auth-btn {
+  width: 2vw !important;
+  height: 1vh !important;
+  border: none !important;
+  margin: 0;
+  padding: 0;
+  background: none !important;
+  border-color: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed !important;
+  top: 28vh;
+  right: 29vw;
+
+  fill: var(--text-color-na) !important;
+}
 
 
 body {
@@ -319,6 +346,48 @@ code {
   margin-right: 1vw;
   background: var(--background-logo) no-repeat;
 }
+
+
+
+
+
+
+
+.profile-container {
+  width: 13vw;
+  height: 3vw;
+
+  position: fixed;
+  top: 5vh;
+  right: 18.75vw;
+}
+
+.profile-container .user-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-container .username {
+  font-size: 2vw;
+  font-weight: 600;
+}
+
+.profile-container .btn-settings {
+  width: 1vw;
+  height: 1vw;
+  margin: 0vh 0vw 2vh 0.5vw;
+  fill: var(--button-icon-color);
+}
+
+.btn-settings:hover {
+  fill: var(--button-icon-color-hover);
+}
+
+
+
+
+
 
 
 .sidebar-block {
@@ -792,8 +861,9 @@ code {
 .tbody-wrapper {
   width: 45vw;
   min-height: 4.75vh;
-  max-height: 12vh;
+  max-height: 14vh;
   margin: 1vh 1vw 2vh 1vw;
+  padding: 0.5vh 0vw;
   border-radius: 0.5vw;
 
   display: grid;
@@ -912,13 +982,19 @@ code {
   justify-content: center;
 }
 
-.form-group {
+.form-edit input {
+  text-align: center;
+}
+
+.container-address-settings .form-group {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center
 }
 
 .domen {
-  margin: 5vh 0 1vh 0;
+  margin: 2vh 0 1vh 0;
 }
 
 .subdomen {
@@ -926,7 +1002,7 @@ code {
 }
 
 .address {
-  margin: 1vh 0;
+  margin: 1vh 0 7vh 0;
 }
 
 .btn-save-edit {
@@ -988,4 +1064,9 @@ code {
 
 .btn-primary:hover {
   background-color: var(--hover-color) !important;
+}
+
+
+.modal-del-conf-foot {
+  margin-top: 3vh;
 }
