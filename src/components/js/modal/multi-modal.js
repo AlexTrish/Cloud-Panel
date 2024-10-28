@@ -28,15 +28,14 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
     e.preventDefault();
   
     try {
-      // Обработка сайтов перед отправкой
-      for (const site of sites) {
-        // Разделение строки доменов на массив
-        const domainsArray = site.domain
-          .split(',')
+      const sitesToSubmit = sites.flatMap((site) => {
+        // Разбиваем домены на массив, разделённый запятой или пробелом
+        const domains = site.domain
+          .split(/[, ]+/)
           .map(domain => domain.trim())
-          .filter(Boolean); // Удаляем пустые элементы, если есть
+          .filter(Boolean);
   
-        // Обновление subdomains как и прежде
+        // Обновляем поддомены, добавляя ".host.com" к каждому, если указано
         const updatedSubdomains = site.subdomains
           ? site.subdomains
               .split(',')
@@ -46,31 +45,37 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
               .join(',')
           : site.subdomains;
   
-        // Отправка данных для каждого домена
-        for (const domain of domainsArray) {
-          const domainData = { ...site, domain, subdomains: updatedSubdomains };
+        // Создаём новый объект для каждого домена с тем же IP и поддоменами
+        return domains.map(domain => ({
+          ...site,
+          domain: domain,
+          subdomains: updatedSubdomains
+        }));
+      });
   
-          if (!domainData.domain || !domainData.ip || !domainData.subdomains) {
-            console.error('Ошибка: все поля должны быть заполнены для сайта:', domainData);
-            continue;
-          }
+      for (const site of sitesToSubmit) {
+        if (!site.domain || !site.ip || !site.subdomains) {
+          console.error('Ошибка: все поля должны быть заполнены для сайта:', site);
+          continue;
+        }
   
-          const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${token}`,
-            },
-            body: JSON.stringify(domainData),
-          });
+        const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+          },
+          body: JSON.stringify(site),
+        });
   
-          if (response.ok) {
-            console.log(`Сайт ${domain} успешно сохранен`);
-          } else {
-            console.error(`Ошибка при сохранении сайта ${domain}`, domainData);
-          }
+        if (response.ok) {
+          console.log('Сайт успешно сохранен');
+        } else {
+          console.error('Ошибка при сохранении сайта', site);
         }
       }
+  
+      console.log('Сайты для добавления:', sitesToSubmit);
     } catch (error) {
       console.error('Ошибка:', error);
     }
@@ -78,6 +83,7 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
     handleClose();
     openServ();
   };
+  
   
 
   return (
@@ -95,7 +101,7 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
                   <Form.Label>{t('domain')}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="example.com"
+                    placeholder="example.com    or    example.com, 2example.com..."
                     value={site.domain}
                     onChange={(e) => handleInputChange(site.id, 'domain', e.target.value)}
                   />
