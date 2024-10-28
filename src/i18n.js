@@ -63,6 +63,16 @@ i18n.use(initReactI18next).init({
         "site": "Site",
         "close": "Close",
         "save": "Save",
+        
+
+        //sidebar
+        "home-btn": "Home",
+        "net-btn": "",
+        "serv-btn": "Site list",
+        "stat-btn": "",
+        "lang-btn": "Change language",
+        "theme-btn": "Change theme",
+        "exit-btn": "Exit",
       }
     },
     ru: {
@@ -122,6 +132,16 @@ i18n.use(initReactI18next).init({
         "close": "Закрыть",
         "save": "Сохранить",
         "site": "Сайт",
+
+
+        //sidebar
+        "home-btn": "Домой",
+        "net-btn": "",
+        "serv-btn": "Список сайтов",
+        "stat-btn": "",
+        "lang-btn": "Сменить язык",
+        "theme-btn": "Сменить тему",
+        "exit-btn": "Выйти",
       }
     }
   },
