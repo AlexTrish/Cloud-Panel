@@ -77,15 +77,8 @@ const UserProfile = ({ email }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer id='modal-prof'>
-                        <div className="language-buttons">
-                            <Button  
-                                onClick={() => handleChangeLanguage('ru')}> Рус </Button>
-                            <Button onClick={() => handleChangeLanguage('en')}> Eng </Button>
-                        </div>
-                        <div className='btns-nav'>
                             <Button variant="secondary" onClick={handleCloseSettings}>Отмена</Button>
                             <Button variant="primary" onClick={handlePasswordChange}>Сохранить изменения</Button>
-                        </div>
                 </Modal.Footer>
             </Modal>
         </div>

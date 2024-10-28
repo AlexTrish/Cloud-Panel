@@ -1,11 +1,22 @@
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { onLogout } from '../../App';
 import { handleChangeMenu, handleMonoMenuClick } from './Dashboard';
-import React, { useState } from 'react';
 import { ThemeContext, themes } from '../../ThemeContext';
 import '../css/index.scss';
 
 const Sidebar = ({ onLogout }) => {
   const { theme, setTheme } = React.useContext(ThemeContext);
+  const { i18n } = useTranslation(); // инициализация i18n для смены языка
+  const [language, setLanguage] = useState('ru');
+
+  // Функция для смены языка
+  const toggleLanguage = () => {
+    const newLanguage = language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(newLanguage);
+    setLanguage(newLanguage);
+  };
+
 
   return (
     <div className="sidebar">
@@ -17,6 +28,7 @@ const Sidebar = ({ onLogout }) => {
           <button id="stat-ico" className="sidebar-icon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 25.5C6.09625 25.5 0.5 19.9037 0.5 13C0.5 7.4025 4.17875 2.665 9.25 1.0725V3.7275C7.10116 4.60006 5.32225 6.19213 4.21757 8.23139C3.1129 10.2707 2.7511 12.6304 3.19407 14.9069C3.63703 17.1835 4.85724 19.2354 6.64596 20.7117C8.43467 22.1879 10.6808 22.9968 13 23C14.9922 22.9999 16.9391 22.4051 18.5911 21.2915C20.243 20.178 21.5249 18.5967 22.2725 16.75H24.9275C23.335 21.8213 18.5975 25.5 13 25.5ZM25.4375 14.25H11.75V0.5625C12.1613 0.52125 12.5787 0.5 13 0.5C19.9037 0.5 25.5 6.09625 25.5 13C25.5 13.4213 25.4788 13.8387 25.4375 14.25ZM14.25 3.0775V11.75H22.9225C22.6443 9.54701 21.6411 7.49917 20.071 5.92904C18.5008 4.35892 16.453 3.35573 14.25 3.0775Z"/></svg></button>
         </div>
         <div className="container-for-btn">
+          <button className='sidebar-icon' onClick={toggleLanguage}>{language === 'ru' ? 'EN' : 'RU'}</button>
           <button id="settings-ico" className="sidebar-icon" onClick={() => setTheme(theme === themes.dark ? themes.light : themes.dark)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sun-fill" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-moon-fill" viewBox="0 0 24 24"><path class="cls-2" d="M12.3,22h-.1a10.31,10.31,0,0,1-7.34-3.15,10.46,10.46,0,0,1-.26-14,10.13,10.13,0,0,1,4-2.74,1,1,0,0,1,1.06.22,1,1,0,0,1,.24,1,8.4,8.4,0,0,0,1.94,8.81,8.47,8.47,0,0,0,8.83,1.94,1,1,0,0,1,1.27,1.29A10.16,10.16,0,0,1,19.6,19,10.28,10.28,0,0,1,12.3,22Z"/></svg>
