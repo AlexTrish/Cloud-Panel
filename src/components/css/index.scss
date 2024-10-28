@@ -489,7 +489,7 @@ code {
   box-shadow: var(--box-shadow);
 
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--button-icon-color);
 }
 
 .sidebar-icon.active {
@@ -536,6 +536,10 @@ code {
 
 .container-for-btn button:hover svg {
   fill: var(--button-icon-active);
+}
+
+#switch-language:hover {
+  color: var(--button-icon-active);
 }
 
 #exit-ico svg {
