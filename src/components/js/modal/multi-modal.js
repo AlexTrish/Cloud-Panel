@@ -26,9 +26,17 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const sitesToSubmit = sites.map((site) => {
+      // Обработка сайтов перед отправкой
+      for (const site of sites) {
+        // Разделение строки доменов на массив
+        const domainsArray = site.domain
+          .split(',')
+          .map(domain => domain.trim())
+          .filter(Boolean); // Удаляем пустые элементы, если есть
+  
+        // Обновление subdomains как и прежде
         const updatedSubdomains = site.subdomains
           ? site.subdomains
               .split(',')
@@ -37,40 +45,40 @@ function AddSitesModal({ show, handleClose, openServ, token }) {
               .map(sub => `${sub}.host.com`)
               .join(',')
           : site.subdomains;
-
-        return { ...site, subdomains: updatedSubdomains };
-      });
-
-      for (const site of sitesToSubmit) {
-        if (!site.domain || !site.ip || !site.subdomains) {
-          console.error('Ошибка: все поля должны быть заполнены для сайта:', site);
-          continue;
-        }
-
-        const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${token}`
-          },
-          body: JSON.stringify(site),
-        });
-
-        if (response.ok) {
-          console.log('Сайт успешно сохранен');
-        } else {
-          console.error('Ошибка при сохранении сайта', site);
+  
+        // Отправка данных для каждого домена
+        for (const domain of domainsArray) {
+          const domainData = { ...site, domain, subdomains: updatedSubdomains };
+  
+          if (!domainData.domain || !domainData.ip || !domainData.subdomains) {
+            console.error('Ошибка: все поля должны быть заполнены для сайта:', domainData);
+            continue;
+          }
+  
+          const response = await fetch('http://46.8.64.99:8000/api/me/create_site', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${token}`,
+            },
+            body: JSON.stringify(domainData),
+          });
+  
+          if (response.ok) {
+            console.log(`Сайт ${domain} успешно сохранен`);
+          } else {
+            console.error(`Ошибка при сохранении сайта ${domain}`, domainData);
+          }
         }
       }
-
-      console.log('Сайты для добавления:', sitesToSubmit);
     } catch (error) {
       console.error('Ошибка:', error);
     }
-
+  
     handleClose();
     openServ();
   };
+  
 
   return (
     <>
