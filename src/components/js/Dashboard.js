@@ -275,8 +275,8 @@ const Dashboard = () => {
               <button className="one" onClick={handleShowMonoModal}>
                 <Card title={t('MonoAddSite')} content="" />
               </button>
-              <button className="two" onClick={handleShowMultiModal}>
-                <Card title={t('MultiAddSite')} content="" />
+              <button className="two">
+                <Card title={t('unavailable')} content="" />
               </button>
             </div>
             <button className="unavailable-card">

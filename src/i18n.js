@@ -51,7 +51,7 @@ i18n.use(initReactI18next).init({
         "domain": "Domain",
         "ip": "IP address",
         "actions": "actions",
-        "MonoAddSite": "Single site addition",
+        "MonoAddSite": "Site addition",
         "MultiAddSite": "Multiple site addition",
         "unavailable": "Temporarily unavailable",
 
@@ -110,14 +110,14 @@ i18n.use(initReactI18next).init({
         "domain": "Домен",
         "ip": "IP адрес",
         "actions": "Действия",
-        "MonoAddSite": "Одиночное добавление сайта",
+        "MonoAddSite": "Добавить сайт",
         "MultiAddSite": "Массовое добавление сайтов",
         "unavailable": "Временно недоступно",
 
 
         //modal
         "addSiteTitle": "Добавить сайт",
-        "addAnotherSite": "Добавить еще один сайт",
+        "addAnotherSite": "Ещё",
         "removeSite": "Удалить сайт",
         "close": "Закрыть",
         "save": "Сохранить",
