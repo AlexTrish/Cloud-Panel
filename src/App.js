@@ -166,9 +166,19 @@ const App = () => {
 
 // Компонент окна авторизации
 const LoginWindow = ({ onLogin, onToggle, onPasswordReset }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState('ru');
+
+  // Функция для смены языка
+  const toggleLanguage = () => {
+    const newLanguage = language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(newLanguage);
+    setLanguage(newLanguage);
+  };
+
   return (
     <div className="body-container">
+      <button id="switch-language" className='lang-btn' title={t('lang-btn')} onClick={toggleLanguage}>{language === 'ru' ? 'EN' : 'RU'} </button>
       <div className="container-wrapper">
         <div className="auth-container">
           <h1>{t('authTitle')}</h1>
@@ -198,10 +208,18 @@ const LoginWindow = ({ onLogin, onToggle, onPasswordReset }) => {
 
 // Компонент окна регистрации
 const RegistrationWindow = ({ onRegister, onToggle }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [language, setLanguage] = useState('ru');
+
+  // Функция для смены языка
+  const toggleLanguage = () => {
+    const newLanguage = language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(newLanguage);
+    setLanguage(newLanguage);
+  };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -223,6 +241,7 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
 
   return (
 <div className="body-container">
+  <button id="switch-language" className='lang-btn' title={t('lang-btn')} onClick={toggleLanguage}>{language === 'ru' ? 'EN' : 'RU'} </button>
       <div className="container-wrapper reg">
         <div className="auth-container">
           <h1>{t("registerTitle")}</h1>
@@ -276,9 +295,18 @@ const RegistrationWindow = ({ onRegister, onToggle }) => {
 
 // Компонент окна восстановления пароля
 const PasswordResetWindow = ({ onBackToAuth }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState('ru');
+
+  // Функция для смены языка
+  const toggleLanguage = () => {
+    const newLanguage = language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(newLanguage);
+    setLanguage(newLanguage);
+  };
   return (
     <div className="body-container">
+      <button id="switch-language" className='lang-btn' title={t('lang-btn')} onClick={toggleLanguage}>{language === 'ru' ? 'EN' : 'RU'} </button>
       <div className="container-wrapper">
         <div className="auth-container">
           <h1>{t('passwordRecoveryTitle')}</h1>

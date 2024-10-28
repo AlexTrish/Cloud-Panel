@@ -159,6 +159,31 @@ input::placeholder {
   background-color: var( --background-color);
 }
 
+.lang-btn {
+  width: 2.25vw;
+  height: 2.25vw;
+  border-radius: 0.5vw;
+  position: fixed;
+  right: 1vw;
+  bottom: 1vw;
+
+  font-size: 1vw;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-color);
+
+  -webkit-box-shadow: var(--shadow-box-auth);
+  -moz-box-shadow: var(--shadow-box-auth);
+  box-shadow: var(--shadow-box-auth);
+  filter: brightness(200%);
+  background-color: var(--background-color-for-auth);
+}
+
+.lang-btn:hover {
+  filter: brightness(300%);
+  color: var(--text-color) !important;
+}
+
 .container-wrapper {
   position: relative;
   min-width: 45vw;
