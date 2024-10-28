@@ -487,6 +487,9 @@ code {
   -webkit-box-shadow: var(--box-shadow);
   -moz-box-shadow: var(--box-shadow);
   box-shadow: var(--box-shadow);
+
+  font-weight: 700;
+  color: var(--text-color);
 }
 
 .sidebar-icon.active {
