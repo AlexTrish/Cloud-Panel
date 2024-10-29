@@ -73,6 +73,13 @@ i18n.use(initReactI18next).init({
         "lang-btn": "Change language",
         "theme-btn": "Change theme",
         "exit-btn": "Exit",
+        
+        //DnsList
+        "DnsList": "DNS server list",
+        "Type": "Type",
+        "NameDNS": "Name",
+        "DnsAddress": "DNS address",
+        "ProxyStatus": "Status",
       }
     },
     ru: {
@@ -142,6 +149,13 @@ i18n.use(initReactI18next).init({
         "lang-btn": "Сменить язык",
         "theme-btn": "Сменить тему",
         "exit-btn": "Выйти",
+
+        //DnsList
+        "DnsList": "Список DNS серверов",
+        "Type": "Тип",
+        "NameDNS": "Название",
+        "DnsAddress": "DNS адрес",
+        "ProxyStatus": "Статус",
       }
     }
   },

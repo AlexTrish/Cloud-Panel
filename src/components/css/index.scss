@@ -956,8 +956,10 @@ code {
   width: 45vw;
   margin-top: 2vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   justify-items: center;
+
+  font-size: 1vw;
 }
 
 .tbody {

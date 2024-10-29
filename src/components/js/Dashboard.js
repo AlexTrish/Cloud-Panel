@@ -15,9 +15,15 @@ export const handleChangeMenu = (menu) => {
   }
 };
 
-export const handleMonoMenuClick = () => {
+export const handleSiteListClick = () => {
   if (setCurrentMenu) {
     setCurrentMenu('serv');
+  }
+};
+
+export const handleSiteDnsMenu = () => {
+  if (setCurrentMenu) {
+    setCurrentMenu('dns');
   }
 };
 
@@ -181,7 +187,29 @@ const Dashboard = () => {
   return (
 <div className="dashboard">
       <div className="multi-menu"></div>
-      {currentMenu === 'serv' ? (
+      {currentMenu === 'dns' ? (
+        <div className="dns-menu">
+          <div className="servers-menu dns-list">
+          <div className="header-menu">
+            <h6 className="title-menu">{t('DnsList')}</h6>
+          </div>
+          <div className="container-address">
+            <div className="address-block-wrapper">
+              <div className="thead">
+                <div>{t('Type')}</div>
+                <div>{t('NameDNS')}</div>
+                <div>{t('DnsAddress')}</div>
+                <div>{t('ProxyStatus')}</div>
+                <div>TTL</div>
+                <div>{t('actions')}</div>
+              </div>
+              <div className="tbody">
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      ) : currentMenu === 'serv' ? (
         <div className="servers-menu">
           <div className="header-menu">
             <h6 className="title-menu">{t('siteList')}</h6>
@@ -287,8 +315,8 @@ const Dashboard = () => {
       )}
 
       {/* Модальные окна */}
-      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleMonoMenuClick} token={token}/>}
-      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleMonoMenuClick} onSave={handleSaveSites} token={token}/>}
+      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleSiteListClick} token={token}/>}
+      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleSiteListClick} onSave={handleSaveSites} token={token}/>}
       {showDeleteModal && (<DeleteConfirmationModal show={showDeleteModal} site={selectedSite} handleClose={handleCloseDelModal} token={token}/>)}
 
     </div>
