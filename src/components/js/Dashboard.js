@@ -80,9 +80,9 @@ const Dashboard = () => {
     await fetchSitesData();
   };
 
-  const handleShowMultiModal = () => {
-    setShowMultiModal(true);
-  };
+  // const handleShowMultiModal = () => {
+  //   setShowMultiModal(true);
+  // };
 
   const handleCloseMultiModal = async () => {
     setShowMultiModal(false);
