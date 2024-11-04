@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import API from '../../App'
+import { API } from '../../App'
 import i18n from '../../i18n';
 import Card from './Card';
 import '../css/index.scss';
@@ -28,7 +28,7 @@ export const handleSiteDnsMenu = () => {
   }
 };
 
-const Dashboard = ( API ) => {
+const Dashboard = () => {
   const { t } = useTranslation();
   const [currentMenu, _setCurrentMenu] = useState(() => {
     return localStorage.getItem('currentMenu') || null;

@@ -10,7 +10,7 @@ import loginIco from './components/img/login.svg';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const API = "http://45.8.64.99:8000/"
+export const API = "http://45.84.88.14:8000/"
 
 const App = ( API ) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

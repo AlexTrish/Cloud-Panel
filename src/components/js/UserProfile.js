@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import API from '../../App';
+import { API } from '../../App'
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-const UserProfile = ({ email, API }) => {
+const UserProfile = ({ email }) => {
     const { t, i18n } = useTranslation();
     const [login, setLogin] = useState('');
     const [showSettings, setShowSettings] = useState(false);
