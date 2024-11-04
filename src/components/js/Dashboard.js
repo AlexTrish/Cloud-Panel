@@ -45,7 +45,7 @@ const Dashboard = ( TOKEN_API, API ) => {
 
   const fetchSitesData = async () => {
     try {
-      const response = await fetch( API + 'api/me/sites', {
+      const response = await fetch( `${API}/api/me/sites`, {
         method: 'GET',
         headers: {
           'Authorization': `Token ${TOKEN_API}`
@@ -151,7 +151,7 @@ const Dashboard = ( TOKEN_API, API ) => {
     const finalData = { ...updatedFields, subdomains: subdomainsString };
   
     try {
-      const response = await fetch( API + 'api/sites/${selectedSite.id}', {
+      const response = await fetch( `${API}/api/sites/${selectedSite.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
