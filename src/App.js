@@ -24,7 +24,7 @@ const App = () => {
 
   
   useEffect(() => {
-    const websocket = new WebSocket('ws://localhost:3000/ws');
+    const websocket = new WebSocket('ws://45.84.88.14:3000/ws');
 
     websocket.onopen = () => {
       console.log('WebSocket соединение установлено');
@@ -79,7 +79,7 @@ const App = () => {
     };
 
     try {
-      const response = await fetch( `${API}api/login`, {
+      const response = await fetch( `${API}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const App = () => {
     };
 
     try {
-      const response = await fetch(`${API}api/register`, { // API уже доступен
+      const response = await fetch(`${API}/api/register`, { // API уже доступен
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
