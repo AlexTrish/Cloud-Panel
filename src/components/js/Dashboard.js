@@ -322,9 +322,9 @@ const Dashboard = ( TOKEN_API, API ) => {
       )}
 
       {/* Модальные окна */}
-      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleSiteListClick} token={token}/>}
-      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleSiteListClick} onSave={handleSaveSites} token={token}/>}
-      {showDeleteModal && (<DeleteConfirmationModal show={showDeleteModal} site={selectedSite} handleClose={handleCloseDelModal} token={token}/>)}
+      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleSiteListClick} token={TOKEN_API}/>}
+      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleSiteListClick} onSave={handleSaveSites} token={TOKEN_API}/>}
+      {showDeleteModal && (<DeleteConfirmationModal show={showDeleteModal} site={selectedSite} handleClose={handleCloseDelModal} token={TOKEN_API}/>)}
 
     </div>
   );
