@@ -67,7 +67,7 @@ const Dashboard = () => {
   
   useEffect(() => {
     fetchSitesData();
-  }, [fetchSitesData]);
+  }, []);
   
 
   // функции открытия и закрытия модалок
