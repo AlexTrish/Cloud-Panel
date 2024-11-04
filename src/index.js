@@ -1,12 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import ThemeProvider from './ThemeProvider'
 import App from './App';
 import './i18n';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
       <ThemeProvider>
           <App />

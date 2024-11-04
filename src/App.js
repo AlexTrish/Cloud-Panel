@@ -24,31 +24,20 @@ const App = () => {
 
   
   useEffect(() => {
-    const websocket = new WebSocket('ws://45.84.88.14:3000/ws'); // Изменён URL на внешний IP
+    const websocket = new WebSocket('ws://45.84.88.14:3000/ws');
   
-    websocket.onopen = () => {
-      console.log('WebSocket соединение установлено');
-    };
-  
+    websocket.onopen = () => console.log('WebSocket соединение установлено');
     websocket.onmessage = (event) => {
       const newMessage = event.data;
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
-  
-    websocket.onclose = () => {
-      console.log('WebSocket соединение закрыто');
-    };
-  
-    websocket.onerror = (error) => {
-      console.error('Ошибка WebSocket:', error);
-    };
+    websocket.onclose = () => console.log('WebSocket соединение закрыто');
+    websocket.onerror = (error) => console.error('Ошибка WebSocket:', error);
   
     setWs(websocket);
   
-    return () => {
-      websocket.close();
-    };
-  }, []);
+    return () => websocket.close();
+  }, []);  
   
 
   // Функция для отправки сообщения через WebSocket
