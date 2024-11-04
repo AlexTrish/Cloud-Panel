@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { API } from '../../App'
-import i18n from '../../i18n';
+import { API, TOKEN_API } from '../../App'
 import Card from './Card';
 import '../css/index.scss';
 import Example from './modal/mono-modal';
@@ -28,7 +27,7 @@ export const handleSiteDnsMenu = () => {
   }
 };
 
-const Dashboard = () => {
+const Dashboard = ( TOKEN_API, API ) => {
   const { t } = useTranslation();
   const [currentMenu, _setCurrentMenu] = useState(() => {
     return localStorage.getItem('currentMenu') || null;
@@ -43,15 +42,13 @@ const Dashboard = () => {
   const [subdomainInput, setSubdomainInput] = useState('');
   setCurrentMenu = _setCurrentMenu;
 
-  const token = '548e1ce8bc45c4211903186c47bf34deb7e86643';
-
 
   const fetchSitesData = async () => {
     try {
       const response = await fetch( API + 'api/me/sites', {
         method: 'GET',
         headers: {
-          'Authorization': `Token ${token}`
+          'Authorization': `Token ${TOKEN_API}`
         }
       });
       if (response.ok) {
@@ -158,7 +155,7 @@ const Dashboard = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`
+          'Authorization': `Token ${TOKEN_API}`
         },
         body: JSON.stringify(finalData),
       });

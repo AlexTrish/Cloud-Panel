@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { API } from '../../App'
+import { API, TOKEN_API } from '../../App'
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';

@@ -10,9 +10,10 @@ import loginIco from './components/img/login.svg';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const API = "http://45.84.88.14:8000/"
+export const API = process.env.REACT_APP_API_URL;
+export const TOKEN_API = process.env.REACT_APP_API_TOKEN;
 
-const App = ( API ) => {
+const App = ( API, TOKEN_API ) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
@@ -20,8 +21,6 @@ const App = ( API ) => {
   const [ws, setWs] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const Token_api = '548e1ce8bc45c4211903186c47bf34deb7e86643'
 
   
   useEffect(() => {
