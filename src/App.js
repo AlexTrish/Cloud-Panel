@@ -10,8 +10,9 @@ import loginIco from './components/img/login.svg';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+export const API = "http://45.8.64.99:8000/"
 
-const App = () => {
+const App = ( API ) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
@@ -79,7 +80,7 @@ const App = () => {
     };
 
     try {
-      const response = await fetch('http://46.8.64.99:8000/api/login', {
+      const response = await fetch( API + 'api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ const App = () => {
     };
 
     try {
-      const response = await fetch('http://46.8.64.99:8000/api/register', {
+      const response = await fetch( API + 'api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

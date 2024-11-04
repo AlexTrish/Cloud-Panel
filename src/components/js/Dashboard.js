@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import API from '../../App'
 import i18n from '../../i18n';
 import Card from './Card';
 import '../css/index.scss';
@@ -27,7 +28,7 @@ export const handleSiteDnsMenu = () => {
   }
 };
 
-const Dashboard = () => {
+const Dashboard = ( API ) => {
   const { t } = useTranslation();
   const [currentMenu, _setCurrentMenu] = useState(() => {
     return localStorage.getItem('currentMenu') || null;
@@ -47,7 +48,7 @@ const Dashboard = () => {
 
   const fetchSitesData = async () => {
     try {
-      const response = await fetch('http://46.8.64.99:8000/api/me/sites', {
+      const response = await fetch( API + 'api/me/sites', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${token}`
@@ -79,10 +80,6 @@ const Dashboard = () => {
     setShowMonoModal(false);
     await fetchSitesData();
   };
-
-  // const handleShowMultiModal = () => {
-  //   setShowMultiModal(true);
-  // };
 
   const handleCloseMultiModal = async () => {
     setShowMultiModal(false);
@@ -157,7 +154,7 @@ const Dashboard = () => {
     const finalData = { ...updatedFields, subdomains: subdomainsString };
   
     try {
-      const response = await fetch(`http://46.8.64.99:8000/api/sites/${selectedSite.id}`, {
+      const response = await fetch( API + 'api/sites/${selectedSite.id}', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

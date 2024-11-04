@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import API from '../../App';
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-const UserProfile = ({ email }) => {
+const UserProfile = ({ email, API }) => {
     const { t, i18n } = useTranslation();
     const [login, setLogin] = useState('');
     const [showSettings, setShowSettings] = useState(false);
@@ -18,7 +19,7 @@ const UserProfile = ({ email }) => {
                 const token = Cookies.get('jwtToken');
                 if (!token) throw new Error('Токен не найден');
                 
-                const response = await fetch('http://46.8.64.99:8000/api/me', {
+                const response = await fetch( API + 'api/me', {
                     headers: { 'Authorization': `Token ${token}` },
                 });
                 if (!response.ok) throw new Error('Ошибка авторизации');
