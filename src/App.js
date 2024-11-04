@@ -10,10 +10,7 @@ import loginIco from './components/img/login.svg';
 import './components/css/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const API = process.env.REACT_APP_API_URL;
-export const TOKEN_API = process.env.REACT_APP_API_TOKEN;
-
-const App = ( API, TOKEN_API ) => {
+const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
@@ -21,6 +18,9 @@ const App = ( API, TOKEN_API ) => {
   const [ws, setWs] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const API = process.env.REACT_APP_API_URL;
+  const TOKEN_API = process.env.REACT_APP_API_TOKEN;
 
   
   useEffect(() => {
@@ -110,7 +110,7 @@ const App = ( API, TOKEN_API ) => {
     };
 
     try {
-      const response = await fetch( `${API}api/register`, {
+      const response = await fetch(`${API}api/register`, { // API уже доступен
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

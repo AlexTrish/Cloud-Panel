@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { API, TOKEN_API } from '../../App'
 import Card from './Card';
 import '../css/index.scss';
 import Example from './modal/mono-modal';
@@ -27,7 +26,10 @@ export const handleSiteDnsMenu = () => {
   }
 };
 
-const Dashboard = ( TOKEN_API, API ) => {
+const Dashboard = () => {
+  const API = process.env.REACT_APP_API_URL;
+  const TOKEN_API = process.env.REACT_APP_API_TOKEN;
+
   const { t } = useTranslation();
   const [currentMenu, _setCurrentMenu] = useState(() => {
     return localStorage.getItem('currentMenu') || null;
@@ -45,7 +47,7 @@ const Dashboard = ( TOKEN_API, API ) => {
 
   const fetchSitesData = async () => {
     try {
-      const response = await fetch( `${API}/api/me/sites`, {
+      const response = await fetch(`${API}/api/me/sites`, {
         method: 'GET',
         headers: {
           'Authorization': `Token ${TOKEN_API}`
@@ -63,10 +65,10 @@ const Dashboard = ( TOKEN_API, API ) => {
     }
   };
   
-
   useEffect(() => {
     fetchSitesData();
-  }, []);
+  }, [fetchSitesData]);
+  
 
   // функции открытия и закрытия модалок
   const handleShowMonoModal = () => {

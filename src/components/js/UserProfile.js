@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { API, TOKEN_API } from '../../App'
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -13,6 +12,9 @@ const UserProfile = ({ email }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const API = process.env.REACT_APP_API_URL;
+    const TOKEN_API = process.env.REACT_APP_API_TOKEN;
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -20,7 +22,7 @@ const UserProfile = ({ email }) => {
                 if (!token) throw new Error('Токен не найден');
                 
                 const response = await fetch( API + 'api/me', {
-                    headers: { 'Authorization': `Token ${token}` },
+                    headers: { 'Authorization': `Token ${TOKEN_API}` },
                 });
                 if (!response.ok) throw new Error('Ошибка авторизации');
                 const data = await response.json();
