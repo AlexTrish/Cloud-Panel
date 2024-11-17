@@ -50,7 +50,7 @@ const Dashboard = () => {
       const response = await fetch(`${API}/api/me/sites`, {
         method: 'GET',
         headers: {
-          'Authorization': `Token ${TOKEN_API}`
+          'Authorization': `Token ${token}`
         }
       });
       if (response.ok) {
@@ -157,7 +157,7 @@ const Dashboard = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Token ${TOKEN_API}`
+          'Authorization': `Token ${token}`
         },
         body: JSON.stringify(finalData),
       });
@@ -324,9 +324,9 @@ const Dashboard = () => {
       )}
 
       {/* Модальные окна */}
-      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleSiteListClick} token={TOKEN_API}/>}
-      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleSiteListClick} onSave={handleSaveSites} token={TOKEN_API}/>}
-      {showDeleteModal && (<DeleteConfirmationModal show={showDeleteModal} site={selectedSite} handleClose={handleCloseDelModal} token={TOKEN_API}/>)}
+      {showMonoModal && <Example show={showMonoModal} handleClose={handleCloseMonoModal} openServ={handleSiteListClick} token={token}/>}
+      {showMultiModal && <AddSitesModal show={showMultiModal} handleClose={handleCloseMultiModal} openServ={handleSiteListClick} onSave={handleSaveSites} token={token}/>}
+      {showDeleteModal && (<DeleteConfirmationModal show={showDeleteModal} site={selectedSite} handleClose={handleCloseDelModal} token={token}/>)}
 
     </div>
   );
